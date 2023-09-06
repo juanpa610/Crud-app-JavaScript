@@ -1,0 +1,1 @@
+Para correr el server con la info de los usuarios se debe ejecutar el siguiente comando : npm run server
