@@ -1,0 +1,15 @@
+table {
+    background-color: transparent;
+    border: 2px solid  white;
+    border-radius: 5px;
+}
+table thead{
+    background-color: rgb(161, 202, 218);
+}
+
+th {
+    border-right: 0px solid black;
+}
+table tr th:last-child{
+    border-right: none;
+}
