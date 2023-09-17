@@ -50,7 +50,6 @@ const onUserDeleted= (id) => {
 }
 
 const reloadPage = async() => {
-    debugger
     const users = await loadUsersByPage(state.currentPage );
     if( users.length === 0 ){
        await loadPreviosPage();

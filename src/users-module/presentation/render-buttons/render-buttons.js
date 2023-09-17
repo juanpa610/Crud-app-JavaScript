@@ -8,6 +8,7 @@ import { RenderTable } from "../render-table/render-table";
  */
 export const renderButtons = (element) => {
 
+
     const prevButton = document.createElement("button");
     prevButton.innerHTML = "< Prev ";
 

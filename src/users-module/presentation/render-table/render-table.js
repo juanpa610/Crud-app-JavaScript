@@ -12,7 +12,6 @@ let table;
 export const RenderTable = ( element ) => {
 
     const users = usersStore.getUsers();
-    debugger
     
     if( !table ){
         table = createTable();
@@ -28,6 +27,13 @@ export const RenderTable = ( element ) => {
     }
     
     let tbodyHtml = '';
+
+    if(usersStore.getUsers().length === 0) {
+        let element = document.querySelector('.card');
+        element.innerHTML = '0 Users in the database';
+        return;
+    }
+
     users.forEach(user => {
         tbodyHtml += `
             <tr>

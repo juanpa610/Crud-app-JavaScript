@@ -13,8 +13,9 @@ export const UserApp = async(element) => {
     element.innerHTML = 'Loading...';
     await usersStore.loadNextPage();
     element.innerHTML = '';
-    
+
     RenderTable(element);
+    if(usersStore.getUsers().length === 0)  return;
     renderButtons(element);
     renderAddButton(element);
     renderModal(element, async (userLike) => {
