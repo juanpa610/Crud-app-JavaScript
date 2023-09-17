@@ -19,9 +19,25 @@ const loadPreviosPage = async() => {
     state.currentPage -= 1;
 }
 
-// TODO: implementar 
-const onUserChange = () => {
-    
+
+const onUserChange = (userSave) => {
+
+    let userWasFound = false;
+
+    state.users = state.users.map ( user => {
+
+        if(user.id === userSave.id){
+            userWasFound = true;
+           return userSave;
+        }
+
+        return user;
+    });
+
+    if(state.users.length < 10 && !userWasFound ){
+        state.users.push(userSave);
+    }
+
 }
 
 const reloadPage = async() => {

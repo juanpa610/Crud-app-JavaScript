@@ -81,6 +81,8 @@ const tableSelectButtonListener = (event) => {
     if (!element) return;
 
     const id = element.getAttribute('data-id');
-    showModal(id);
+    if(element.classList.contains( 'select-user')){
+        showModal(id);
+    }
 
 };
