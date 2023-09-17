@@ -1,6 +1,6 @@
+import { User } from "../../models/user";
 import "./render-modal.css";
 import html from "./render-modal.html?raw";
-
 
 let modalEditUser, form;
 
@@ -13,12 +13,13 @@ export const hideModal = () => {
     form?.reset();
 };
 
-
 /**
  * 
- * 
+ * @param {HTMLDivElement} element 
+ * @param {(userLike) => Promise<void>} userSaveCallback 
+ * @returns 
  */
-export const renderModal = (element) => {
+export const renderModal = (element, userSaveCallback) => {
     if(modalEditUser)return;
 
     modalEditUser = document.createElement('div')
@@ -27,25 +28,27 @@ export const renderModal = (element) => {
 
     form = modalEditUser.querySelector('form');
 
-    form.addEventListener('submit', (e) =>{
+    form.addEventListener('submit', async (e) =>{
         e.preventDefault();
         const formData = new FormData( form );
+        
         const userLike = {};
         for (const [key, value] of formData) {
-            
+            console.log(key, value);
             if( key === 'balance'){
                 userLike[key] = parseInt(value);
                 continue; // Para que continue y despues no sobre estcriba el balance 
             } 
             
             if( key === 'isActive'){
-                userLike[key] = value === 'on' ? true : false;
+                userLike[key] = (value === 'on') ? true : false;
                 continue
             } 
 
             userLike[key] = value;
         }
-        // console.log(userLike);
+    
+        await userSaveCallback(userLike);
     });
 
     modalEditUser.addEventListener('click', (event) =>{
@@ -53,4 +56,5 @@ export const renderModal = (element) => {
     });
 
     element.append( modalEditUser );
+
 };
