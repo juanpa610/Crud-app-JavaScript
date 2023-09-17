@@ -15,7 +15,10 @@ export const RenderTable = ( element ) => {
         table = createTable();
         element.append(table);
         
-        //TODO: listeners a la tabla 
+        //TODO: listeners a la tabla
+        // table.target.closest('[data-id]');
+        // console.debug(`💎🤑  table.target`, table.closest())
+        
     }
     
     let tbodyHtml = '';
@@ -36,7 +39,8 @@ export const RenderTable = ( element ) => {
     });
 
     table.querySelector('tbody').innerHTML = tbodyHtml;
-
+    // const a = table.querySelectorAll('a');
+    //     console.debug(`💎🤑  a`, a)
 };
 
 
