@@ -3,7 +3,7 @@ import { User } from "../models/user";
 
 /**
  * 
- * Fusion que hace el consumo de un servicio que retorna la información de los usuarios por pagina 
+ * Funcion que hace el consumo de un servicio que retorna la información de los usuarios por pagina 
  * 
  * @param  {Number} page
  * @returns {Promise<User[]>}

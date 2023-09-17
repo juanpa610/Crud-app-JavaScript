@@ -1,16 +1,40 @@
 import { User } from "../../models/user";
+import { getUserById } from "../../useCases/get-user-by-id";
 import "./render-modal.css";
 import html from "./render-modal.html?raw";
 
 let modalEditUser, form;
+let loaderUser = {};
 
-export const showModal = () => {
+/**
+ * 
+ * @param {String || null} id 
+ */
+export const showModal = async ( id ) => {
     modalEditUser?.classList.remove('hide-modal');
+    loaderUser = {};
+    if(!id) return;
+
+    const user = await getUserById(id);
+    setFormValues(user);
+
 };
 
 export const hideModal = () => {
     modalEditUser?.classList.add('hide-modal');
     form?.reset();
+};
+
+/**
+ * 
+ * @param {User} user 
+ */
+const setFormValues = (user) => {
+    form.querySelector("[name='firstName']").value = user.firstName;
+    form.querySelector("[name='lastName']").value = user.lastName;
+    form.querySelector("[name='balance']").value = user.balance;
+    form.querySelector("[name='isActive']").checked = user.isActive;
+    loaderUser = user;
 };
 
 /**
@@ -32,11 +56,11 @@ export const renderModal = (element, userSaveCallback) => {
         e.preventDefault();
         const formData = new FormData( form );
         
-        const userLike = {};
+        const userLike = {...loaderUser};
+        
         for (const [key, value] of formData) {
-            console.log(key, value);
             if( key === 'balance'){
-                userLike[key] = parseInt(value);
+                userLike[key] = parseFloat(value);
                 continue; // Para que continue y despues no sobre estcriba el balance 
             } 
             
@@ -48,6 +72,7 @@ export const renderModal = (element, userSaveCallback) => {
             userLike[key] = value;
         }
     
+        hideModal();
         await userSaveCallback(userLike);
     });
 

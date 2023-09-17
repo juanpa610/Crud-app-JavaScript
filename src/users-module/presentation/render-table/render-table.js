@@ -1,4 +1,5 @@
 import usersStore from "../../store/users-store";
+import { showModal } from "../render-modal/render-modal";
 import "./render-table.css";
 
 let table;
@@ -18,6 +19,9 @@ export const RenderTable = ( element ) => {
         //TODO: listeners a la tabla
         // table.target.closest('[data-id]');
         // console.debug(`💎🤑  table.target`, table.closest())
+        table.addEventListener('click', event => {
+            tableSelectButtonListener(event);
+        });
         
     }
     
@@ -31,8 +35,8 @@ export const RenderTable = ( element ) => {
                 <td>${user.lastName}</td>
                 <td>${user.isActive}</td>
                 <td>
-                    <a href="#/" data-id="${user.id}">Select</a>
-                    <a href="#/" data-id="${user.id}">Delete</a>
+                    <a href="#/" class="select-user" data-id="${user.id}">Select</a>
+                    <a href="#/" class="delete-user" data-id="${user.id}">Delete</a>
                 </td>
             </tr>
         `;
@@ -61,4 +65,22 @@ const createTable = () => {
     const tableBody = document.createElement('tbody');
     table.append( tableHead, tableBody);
     return table;
+};
+
+/**
+ * 
+ * @param {MouseEvent} event 
+ */
+const tableSelectButtonListener = (event) => {
+    // console.debug(`💎🤑  event`, event.target);
+    // console.debug(`💎🤑  event`, event.target.className);
+    // console.debug(`💎🤑  event`, event.target.getAttribute('data-id'));
+    // console.debug(`💎🤑  event`, event.target.closest('.select-user'));
+
+    const element = event.target;
+    if (!element) return;
+
+    const id = element.getAttribute('data-id');
+    showModal(id);
+
 };

@@ -6,21 +6,26 @@ const url = `${import.meta.env.VITE_BASE_URL}/users`;
 
 /**
  * 
- * Fusion que hace el llamdo a un servicio post para crear un usuario 
+ * Funcion que hace el llamado a un servicio post para crear un usuario 
  * 
  * @param  {Like<User>} userLike
- * @returns {Promise<User[]>}
+ * @returns {Promise<User>}
  */
 export const saveUser = async (userLike) => {
     const user = new User(userLike);
     const userToSave = userModelToLocalhost(user);
+    let userUpdated = {};
 
     if( user.id){
-        return;
+        userUpdated = await updateInfoUser(userToSave);
+    } else {
+        userUpdated = await createUser(userToSave);
     }
 
-    const updateUser = await createUser(userToSave);
-    return updateUser;
+    return localhostUserToModel(userUpdated);
+
+
+
 };
 
 /**
@@ -36,15 +41,25 @@ const createUser = async (user) => {
             'Content-Type': 'application/json'
         }
     });
+
     const newUser = await res.json();
     return newUser;
 };
 
 
-const updateInfoUser = async (id) => {
-    const res = await fetch(`${url}?id=${id}`, {
-        method : 'PUT',
+/**
+ * 
+ * @param {Like<User>} user 
+ * @returns 
+ */
+const updateInfoUser = async (user) => {
+    const res = await fetch(`${url}/${user.id}`, {
+        method : 'PATCH',
+        body: JSON.stringify(user),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
     
-    const data = await res.json();
+    return await res.json();;
 };

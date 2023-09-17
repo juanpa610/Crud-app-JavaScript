@@ -21,7 +21,7 @@ const loadPreviosPage = async() => {
 
 // TODO: implementar 
 const onUserChange = () => {
-    throw new Error('No implementado');
+    
 }
 
 const reloadPage = async() => {
