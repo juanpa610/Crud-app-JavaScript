@@ -14,9 +14,13 @@ const loadNextPage = async() => {
 }
 
 const loadPreviosPage = async() => {
-    if( state.currentPage === 1 ) return;
-    state.users = await loadUsersByPage(state.currentPage - 1);; 
+    if( state.currentPage === 1 ) {
+        state.users = await loadUsersByPage(state.currentPage); 
+        return;
+    };
+    state.users = await loadUsersByPage(state.currentPage - 1);
     state.currentPage -= 1;
+    
 }
 
 
@@ -46,7 +50,13 @@ const onUserDeleted= (id) => {
 }
 
 const reloadPage = async() => {
-    throw new Error('No implementado');
+    debugger
+    const users = await loadUsersByPage(state.currentPage );
+    if( users.length === 0 ){
+       await loadPreviosPage();
+        return;
+    }
+    state.users = users; 
 }
 
 export default {

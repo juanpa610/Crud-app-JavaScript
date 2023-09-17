@@ -12,7 +12,7 @@ let table;
 export const RenderTable = ( element ) => {
 
     const users = usersStore.getUsers();
-    console.debug(`💎🤑  users`, users);
+    debugger
     
     if( !table ){
         table = createTable();
@@ -73,7 +73,7 @@ const createTable = () => {
  * 
  * @param {MouseEvent} event 
  */
-const tableSelectButtonsListener = (event) => {
+const tableSelectButtonsListener = async (event) => {
     const element = event.target;
     if (!element) return;
 
@@ -84,9 +84,12 @@ const tableSelectButtonsListener = (event) => {
     }
 
     if(element.classList.contains('delete-user')){
-        deleteUser(id);
-        usersStore.onUserDeleted(id)
-        RenderTable();
+        await deleteUser(id);
+        // usersStore.onUserDeleted(id);
+        await usersStore.reloadPage();
+        document.querySelector('#current-page').innerHTML = usersStore.getCurrentPage();
+        await RenderTable();
+
     }
 
 };
