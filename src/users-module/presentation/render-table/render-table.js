@@ -1,4 +1,5 @@
 import usersStore from "../../store/users-store";
+import { deleteUser } from "../../useCases/delete-user";
 import { showModal } from "../render-modal/render-modal";
 import "./render-table.css";
 
@@ -11,6 +12,7 @@ let table;
 export const RenderTable = ( element ) => {
 
     const users = usersStore.getUsers();
+    console.debug(`💎🤑  users`, users);
     
     if( !table ){
         table = createTable();
@@ -20,7 +22,7 @@ export const RenderTable = ( element ) => {
         // table.target.closest('[data-id]');
         // console.debug(`💎🤑  table.target`, table.closest())
         table.addEventListener('click', event => {
-            tableSelectButtonListener(event);
+            tableSelectButtonsListener(event);
         });
         
     }
@@ -71,18 +73,20 @@ const createTable = () => {
  * 
  * @param {MouseEvent} event 
  */
-const tableSelectButtonListener = (event) => {
-    // console.debug(`💎🤑  event`, event.target);
-    // console.debug(`💎🤑  event`, event.target.className);
-    // console.debug(`💎🤑  event`, event.target.getAttribute('data-id'));
-    // console.debug(`💎🤑  event`, event.target.closest('.select-user'));
-
+const tableSelectButtonsListener = (event) => {
     const element = event.target;
     if (!element) return;
 
     const id = element.getAttribute('data-id');
+    
     if(element.classList.contains( 'select-user')){
         showModal(id);
+    }
+
+    if(element.classList.contains('delete-user')){
+        deleteUser(id);
+        usersStore.onUserDeleted(id)
+        RenderTable();
     }
 
 };

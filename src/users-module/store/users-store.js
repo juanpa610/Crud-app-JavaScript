@@ -40,6 +40,11 @@ const onUserChange = (userSave) => {
 
 }
 
+const onUserDeleted= (id) => {
+    let userFind = state.users.findIndex( (user) => user.id === parseInt(id));
+    state.users = state.users.slice(userFind + 1 , state.users.length);
+}
+
 const reloadPage = async() => {
     throw new Error('No implementado');
 }
@@ -49,6 +54,7 @@ export default {
     loadPreviosPage,
     onUserChange,
     reloadPage,
+    onUserDeleted,
     /**
      * 
      * @returns {User[]}
